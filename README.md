@@ -1,16 +1,12 @@
-#   🐳 Docker + PHP 8.2 + MySQL + Nginx template
+#   Clean Architecture template project
 
 ## Description
 
-This is a complete stack for running Symfony 7.1 into Docker containers using docker-compose tool.
-
-It is composed by 3 containers:
-
-- `nginx`, acting as the webserver.
-- `php`, the PHP-FPM container with the 8.2 version of PHP.
-- `db` which is the MySQL database container with a **MySQL 8.0** image.
-
+This project is designed to implement Clean Architecture principles using Symfony 7. 
+It focuses on separating system responsibilities into different layers, ensuring that business logic, infrastructure and user interfaces are decoupled. 
+The goal is to provide a scalable and easy to maintain structure, applying design concepts such as dependency inversion and separation of concerns.
 ## Installation
 
 1. Clone this repo. 😀
 2. I added a makefile to execute the commands to build and start the docker containers.
+   - `make install` to build + start
