@@ -1,5 +1,5 @@
 controllers:
     resource:
-        path: ../src/Bookify/Rest/
-        namespace: Bookify\Rest
+        path: ../src/Bookify/
+        namespace: Bookify\
     type: attribute
