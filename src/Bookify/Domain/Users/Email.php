@@ -2,7 +2,6 @@
 
 namespace Bookify\Domain\Users;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use DomainException;
 
 class Email

@@ -2,8 +2,6 @@
 
 namespace Bookify\Domain\Shared;
 
-use Bookify\Domain\Enum\Currency as CurrencyEnum;
-
 class Money
 {
     private function __construct(
