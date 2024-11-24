@@ -6,11 +6,10 @@ use Bookify\Domain\Enum\Currency as CurrencyEnum;
 
 class Money
 {
-    public function __construct(
-        private readonly float    $amount,
+    private function __construct(
+        private readonly float $amount,
         private readonly Currency $currency,
-    )
-    {
+    ) {
     }
 
     public function amount(): float
@@ -25,7 +24,7 @@ class Money
 
     public static function add(self $firstAmountOfMoney, self $secondAmountOfMoney): self
     {
-        if ($firstAmountOfMoney->currency()->equals($secondAmountOfMoney->currency())) {
+        if ($firstAmountOfMoney->currency()->isEqual($secondAmountOfMoney->currency())) {
             throw new \DomainException('Currency must be equal');
         }
 
@@ -34,7 +33,7 @@ class Money
 
     public static function zero(Currency $currency): self
     {
-        return new static(0, $currency->code());
+        return new static(0, $currency);
     }
 
     public function isZero(Currency $currency): bool

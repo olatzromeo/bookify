@@ -2,15 +2,15 @@
 
 namespace Bookify\Domain\Shared;
 
-use App\Shared\Domain\Exception\InvalidId;
 use DomainException;
+use Symfony\Component\Uid\Uuid;
 
 abstract class CustomUuid implements \Stringable
 {
     private function __construct(
         private readonly string $value
     ) {
-        if (!CustomUuid::isValid($value)) {
+        if (!Uuid::isValid($value)) {
             throw new DomainException('UUID is not valid');
         }
     }
@@ -22,7 +22,7 @@ abstract class CustomUuid implements \Stringable
 
     final public static function generate(): static
     {
-        $id = CustomUuid::uuid4()->toString();
+        $id = Uuid::v4()->toString();
 
         return new static($id);
     }

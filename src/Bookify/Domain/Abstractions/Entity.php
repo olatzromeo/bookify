@@ -7,7 +7,7 @@ use Bookify\Domain\Shared\CustomUuid;
 abstract class Entity
 {
     public function __construct(
-        private CustomUuid $id,
+        private readonly CustomUuid $id,
         private array $domainEvents = []
     ) {
     }
@@ -27,7 +27,7 @@ abstract class Entity
         $this->domainEvents = [];
     }
 
-    protected function raiseDomainEvent(IDomainEvent $domainEvent): void
+    protected function raiseDomainEvent(DomainEvent $domainEvent): void
     {
         $this->domainEvents[] = $domainEvent;
     }
