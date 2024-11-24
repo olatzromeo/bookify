@@ -8,7 +8,7 @@ use Bookify\Domain\Shared\CustomUuid;
 class User extends Entity
 {
     private function __construct(
-        private CustomUuid $id,
+        private readonly CustomUuid $id,
         private readonly string $firstName,
         private readonly string $lastName,
         private readonly Email $email,
@@ -19,12 +19,9 @@ class User extends Entity
     public static function create(
         string $firstName,
         string $lastName,
-        Email $email,
-    ): self
-    {
-        $user = new static($firstName, $lastName, Email::fromString($email));
-
-        return $user;
+        string $email,
+    ): self {
+         return new static(CustomUuid::generate(), $firstName, $lastName, Email::fromString($email));
     }
 
     public function firstName(): string

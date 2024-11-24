@@ -2,8 +2,8 @@
 
 namespace Bookify\Domain\Shared;
 
-class DateTime implements DateTimeImmutable
+use DateTimeImmutable;
+
+class DateTime extends DateTimeImmutable
 {
-
-
 }
