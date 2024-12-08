@@ -1,11 +1,11 @@
 <?php
 
-namespace Bookify\Domain\Bookings\Events;
+namespace Bookify\Domain\Reviews\Events;
 
 use Bookify\Domain\Abstractions\DomainEvent;
 use Bookify\Domain\Shared\CustomUuid;
 
-class BookingReserved implements DomainEvent
+class ReviewCreated implements DomainEvent
 {
     public function __construct(
         private readonly CustomUuid $id
