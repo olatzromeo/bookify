@@ -18,7 +18,7 @@ use DomainException;
 final class Booking extends Entity
 {
     private function __construct(
-        private readonly CustomUuid $id,
+        CustomUuid $id,
         private readonly CustomUuid $apartmentId,
         private readonly CustomUuid $userId,
         private readonly DateRange  $stayPeriod,
@@ -73,7 +73,7 @@ final class Booking extends Entity
         $this->bookingStatus = BookingStatus::CONFIRMED;
         $this->confirmedOn = DateTime::now();
 
-        $this->raiseDomainEvent(new BookingConfirmed($this->id));
+        $this->raiseDomainEvent(new BookingConfirmed($this->id()));
     }
 
     public function reject(): void
@@ -190,5 +190,10 @@ final class Booking extends Entity
     public function isConfirmed(): bool
     {
         return BookingStatus::CONFIRMED === $this->bookingStatus;
+    }
+
+    public function isCompleted(): bool
+    {
+        return BookingStatus::COMPLETED === $this->bookingStatus;
     }
 }

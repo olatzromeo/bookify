@@ -10,7 +10,7 @@ use Bookify\Domain\Shared\Money;
 final class Apartment extends Entity
 {
     private function __construct(
-        private readonly CustomUuid $id,
+        CustomUuid $id,
         private readonly string $name,
         private readonly string $description,
         private readonly Address $address,
