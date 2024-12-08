@@ -20,7 +20,7 @@ class CalculatePrice
 
         // calculate the percentage of overcharge per amenity
         $percentageUpCharge = 0;
-        foreach ($apartment->getAmenities() as $amenity) {
+        foreach ($apartment->amenities() as $amenity) {
             $percentageUpCharge += match ($amenity) {
                 Amenity::GARDEN_VIEW => 0.05,
                 Amenity::MOUNTAIN_VIEW => 0.05,

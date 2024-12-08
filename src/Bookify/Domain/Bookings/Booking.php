@@ -4,11 +4,16 @@ namespace Bookify\Domain\Bookings;
 
 use Bookify\Domain\Abstractions\Entity;
 use Bookify\Domain\Apartments\Apartment;
+use Bookify\Domain\Bookings\Events\BookingCancelled;
+use Bookify\Domain\Bookings\Events\BookingCompleted;
+use Bookify\Domain\Bookings\Events\BookingConfirmed;
+use Bookify\Domain\Bookings\Events\BookingRejected;
 use Bookify\Domain\Bookings\Events\BookingReserved;
 use Bookify\Domain\Shared\CustomUuid;
 use Bookify\Domain\Shared\DateRange;
 use Bookify\Domain\Shared\DateTime;
 use Bookify\Domain\Shared\Money;
+use DomainException;
 
 final class Booking extends Entity
 {
@@ -16,18 +21,19 @@ final class Booking extends Entity
         private readonly CustomUuid $id,
         private readonly CustomUuid $apartmentId,
         private readonly CustomUuid $userId,
-        private readonly DateRange $period,
+        private readonly DateRange  $stayPeriod,
         private readonly Money $priceForPeriod,
         private readonly Money $cleaningFee,
         private readonly Money $amenitiesUpCharge,
         private readonly Money $totalPrice,
-        private readonly BookingStatus $bookingStatus,
+        private int $bookingStatus,
         private readonly DateTime $createdAt,
-        private readonly ?DateTime $rejectedOn,
-        private readonly ?DateTime $completedOn,
-        private readonly ?DateTime $cancelledOn,
-        array $domainEvents = [])
-    {
+        private ?DateTime $confirmedOn = null,
+        private ?DateTime $rejectedOn = null,
+        private ?DateTime $completedOn = null,
+        private ?DateTime $cancelledOn = null,
+        array $domainEvents = []
+    ) {
         parent::__construct($id, $domainEvents);
     }
 
@@ -58,6 +64,59 @@ final class Booking extends Entity
         return $booking;
     }
 
+    public function confirm(): void
+    {
+        if(!$this->isReserved()) {
+            throw new DomainException('The booking is not pending to confirm.');
+        }
+
+        $this->bookingStatus = BookingStatus::CONFIRMED;
+        $this->confirmedOn = DateTime::now();
+
+        $this->raiseDomainEvent(new BookingConfirmed($this->id));
+    }
+
+    public function reject(): void
+    {
+        if(!$this->isReserved()) {
+            throw new DomainException('The booking is not pending to confirm.');
+        }
+
+        $this->bookingStatus = BookingStatus::REJECTED;
+        $this->rejectedOn = DateTime::now();
+
+        $this->raiseDomainEvent(new BookingRejected($this->id()));
+    }
+
+    public function complete(): void
+    {
+        if (!$this->isConfirmed()) {
+            throw new DomainException('The booking is not confirmed.');
+        }
+
+        $this->bookingStatus = BookingStatus::COMPLETED;
+        $this->completedOn = DateTime::now();
+
+        $this->raiseDomainEvent(new BookingCompleted($this->id()));
+    }
+
+    public function cancel(): void
+    {
+        if (!$this->isConfirmed()) {
+            throw new DomainException('The booking is not confirmed.');
+        }
+
+        $currentDate = DateTime::now();
+        if ($currentDate->isGreaterThan($this->stayPeriod->start())) {
+            throw new DomainException('The booking has already started.');
+        }
+
+        $this->bookingStatus = BookingStatus::CANCELLED;
+        $this->cancelledOn = DateTime::now();
+
+        $this->raiseDomainEvent(new BookingCancelled($this->id()));
+    }
+
     public function getApartmentId(): CustomUuid
     {
         return $this->apartmentId;
@@ -73,9 +132,9 @@ final class Booking extends Entity
         return $this->priceForPeriod;
     }
 
-    public function getPeriod(): DateRange
+    public function getStayPeriod(): DateRange
     {
-        return $this->period;
+        return $this->stayPeriod;
     }
 
     public function getCleaningFee(): Money
@@ -93,7 +152,7 @@ final class Booking extends Entity
         return $this->totalPrice;
     }
 
-    public function getBookingStatus(): BookingStatus
+    public function getBookingStatus(): int
     {
         return $this->bookingStatus;
     }
@@ -101,6 +160,11 @@ final class Booking extends Entity
     public function getCreatedAt(): DateTime
     {
         return $this->createdAt;
+    }
+
+    public function getConfirmedOn(): ?DateTime
+    {
+        return $this->confirmedOn;
     }
 
     public function getRejectedOn(): DateTime
@@ -116,5 +180,15 @@ final class Booking extends Entity
     public function getCancelledOn(): DateTime
     {
         return $this->cancelledOn;
+    }
+
+    public function isReserved(): bool
+    {
+        return BookingStatus::RESERVED === $this->bookingStatus;
+    }
+
+    public function isConfirmed(): bool
+    {
+        return BookingStatus::CONFIRMED === $this->bookingStatus;
     }
 }
