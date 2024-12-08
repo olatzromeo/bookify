@@ -37,3 +37,6 @@ ssh: ## Access to php container
 
 ssh-nginx: ## Access to nginx container
 	$(SSH_NGINX)
+
+cc:
+	$(EXEC_PHP) bin/console cache:clear
