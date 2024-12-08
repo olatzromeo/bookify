@@ -4,6 +4,7 @@ namespace Bookify\Domain\Users;
 
 use Bookify\Domain\Abstractions\Entity;
 use Bookify\Domain\Shared\CustomUuid;
+use Bookify\Domain\Users\Events\UserCreated;
 
 class User extends Entity
 {
@@ -21,7 +22,11 @@ class User extends Entity
         string $lastName,
         string $email,
     ): self {
-         return new static(CustomUuid::generate(), $firstName, $lastName, Email::fromString($email));
+         $user = new static(CustomUuid::generate(), $firstName, $lastName, Email::fromString($email));
+
+         $user->raiseDomainEvent(new UserCreated($user->id()));
+
+         return $user;
     }
 
     public function firstName(): string

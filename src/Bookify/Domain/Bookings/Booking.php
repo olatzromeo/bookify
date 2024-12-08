@@ -3,6 +3,8 @@
 namespace Bookify\Domain\Bookings;
 
 use Bookify\Domain\Abstractions\Entity;
+use Bookify\Domain\Apartments\Apartment;
+use Bookify\Domain\Bookings\Events\BookingReserved;
 use Bookify\Domain\Shared\CustomUuid;
 use Bookify\Domain\Shared\DateRange;
 use Bookify\Domain\Shared\DateTime;
@@ -14,27 +16,46 @@ final class Booking extends Entity
         private readonly CustomUuid $id,
         private readonly CustomUuid $apartmentId,
         private readonly CustomUuid $userId,
-        private readonly DateRange $duration,
+        private readonly DateRange $period,
         private readonly Money $priceForPeriod,
         private readonly Money $cleaningFee,
         private readonly Money $amenitiesUpCharge,
         private readonly Money $totalPrice,
-        private readonly BookingStatus  $bookingStatus,
+        private readonly BookingStatus $bookingStatus,
         private readonly DateTime $createdAt,
-        private readonly DateTime $rejectedOn,
-        private readonly DateTime $completedOn,
-        private readonly DateTime $cancelledOn,
+        private readonly ?DateTime $rejectedOn,
+        private readonly ?DateTime $completedOn,
+        private readonly ?DateTime $cancelledOn,
         array $domainEvents = [])
     {
         parent::__construct($id, $domainEvents);
     }
 
-    public static function reserve (
-        CustomUuid $apartmentId,
+    public static function reserve(
+        Apartment $apartment,
         CustomUuid $userId,
-        DateRange $duration
+        DateRange $period,
+        CalculatePrice $calculatePrice
     ): self {
-        return new self(CustomUuid::generate(), $apartmentId, $userId, $duration);
+
+        $pricingDetails = ($calculatePrice)($apartment, $period);
+
+        $booking = new self(
+            CustomUuid::generate(),
+            $apartment->id(),
+            $userId,
+            $period,
+            $pricingDetails->getPriceForPeriod(),
+            $pricingDetails->getCleaningFee(),
+            $pricingDetails->getAmenitiesUpCharge(),
+            $pricingDetails->getTotalPrice(),
+            BookingStatus::RESERVED,
+            DateTime::now(),
+        );
+
+        $booking->raiseDomainEvent(new BookingReserved($booking->id()));
+
+        return $booking;
     }
 
     public function getApartmentId(): CustomUuid
@@ -52,9 +73,9 @@ final class Booking extends Entity
         return $this->priceForPeriod;
     }
 
-    public function getDuration(): DateRange
+    public function getPeriod(): DateRange
     {
-        return $this->duration;
+        return $this->period;
     }
 
     public function getCleaningFee(): Money

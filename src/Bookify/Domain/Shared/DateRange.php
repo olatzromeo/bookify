@@ -4,11 +4,11 @@ namespace Bookify\Domain\Shared;
 
 use DomainException;
 
-readonly class DateRange
+class DateRange
 {
     private function __construct(
-        private DateTime $start,
-        private DateTime $end
+        private readonly DateTime $start,
+        private readonly DateTime $end
     ) {
         if ($this->start > $this->end) {
            throw new DomainException('Start date cannot be greater than end date');
