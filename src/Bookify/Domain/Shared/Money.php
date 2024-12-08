@@ -10,6 +10,11 @@ class Money
     ) {
     }
 
+    public static function fromFloat(float $amount, Currency $currency): self
+    {
+        return new self($amount, $currency);
+    }
+
     public function amount(): float
     {
         return $this->amount;

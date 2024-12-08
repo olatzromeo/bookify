@@ -46,3 +46,6 @@ stop-rabbitmq:
 
 consume-transport-%:
 	$(SSH_PHP) bin/console messenger:consume *$
+
+cc:
+	$(EXEC_PHP) bin/console cache:clear
