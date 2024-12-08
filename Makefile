@@ -18,6 +18,7 @@ install: ## Install the docker stack
 	make start
 
 uninstall: ## Uninstall the docker stack
+	make stop
 	$(DOCKER_COMPOSE) kill
 	$(DOCKER_COMPOSE) down --volumes --remove-orphans
 
