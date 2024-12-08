@@ -61,8 +61,23 @@ services:
     networks:
       - clean_architecture_symfony7_network
 
+  rabbitmq:
+    container_name: clean-architecture-symfony7_rabbitmq
+    image: rabbitmq:3.11-management
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER:-rabbituser}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS:-rabbitpass}
+    ports:
+      - "15672:15672" # Management UI
+      - "5672:5672"   # Port for messaging connections
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - clean_architecture_symfony7_network
+
 volumes:
   db_data:
+  rabbitmq_data:
 
 networks:
   clean_architecture_symfony7_network:

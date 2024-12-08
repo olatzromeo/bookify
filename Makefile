@@ -37,3 +37,12 @@ ssh: ## Access to php container
 
 ssh-nginx: ## Access to nginx container
 	$(SSH_NGINX)
+
+start-rabbitmq:
+	$(DOCKER_COMPOSE) up -d rabbitmq
+
+stop-rabbitmq:
+	$(DOCKER_COMPOSE) stop rabbitmq
+
+consume-transport-%:
+	$(SSH_PHP) bin/console messenger:consume *$

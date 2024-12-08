@@ -2,28 +2,53 @@ framework:
     messenger:
         default_bus: command.bus
         buses:
-            command.bus: ~
-            query.bus: ~
-            event.bus: ~
-        transports: # No se configuran transportes
+            command.bus:
+                middleware:
+                    - validation
+            query.bus:
+                middleware:
+                    - validation
+            event.bus:
+                middleware:
+                    - validation
+        transports:
+            # https://symfony.com/doc/current/messenger.html#transport-configuration
+            # failed: 'doctrine://default?queue_name=failed'
+            async:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    exchange:
+                        name: 'custom_message_exchange'
+                        type: direct
+                    queue:
+                        name: 'custom_message_queue'
+                        durable: true  # For queue persistence
+                        auto_delete: false  # Do not delete the queue automatically
+            sync:
+                dsn: 'sync://'
+            async_domain_events:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    exchange:
+                        name: 'domain_event_message_exchange'
+                        type: direct
+                    queue:
+                        name: 'domain_event_queue'
+                        durable: true
+                        auto_delete: false
+            sync_domain_events:
+                dsn: 'sync://'
+
+        routing:
+            'Bookify\Domain\Abstractions\DomainEvent': async_domain_events
 
         # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
         # failure_transport: failed
 
-        #transports:
-            # https://symfony.com/doc/current/messenger.html#transport-configuration
-            # async: '%env(MESSENGER_TRANSPORT_DSN)%'
-            # failed: 'doctrine://default?queue_name=failed'
-            # sync: 'sync://'
-
-        #routing:
-            # Route your messages to the transports
-            # 'App\Message\YourMessage': async
-
-# when@test:
-#    framework:
-#        messenger:
-#            transports:
+when@test:
+    framework:
+        messenger:
+            transports:
 #                # replace with your transport name here (e.g., my_transport: 'in-memory://')
 #                # For more Messenger testing tools, see https://github.com/zenstruck/messenger-test
-#                async: 'in-memory://'
+                async: 'in-memory://'
