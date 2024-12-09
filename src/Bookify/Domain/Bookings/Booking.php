@@ -13,6 +13,7 @@ use Bookify\Domain\Shared\CustomUuid;
 use Bookify\Domain\Shared\DateRange;
 use Bookify\Domain\Shared\DateTime;
 use Bookify\Domain\Shared\Money;
+use DateTimeImmutable;
 use DomainException;
 
 final class Booking extends Entity
@@ -41,6 +42,7 @@ final class Booking extends Entity
         Apartment $apartment,
         CustomUuid $userId,
         DateRange $period,
+        DateTimeImmutable $createdAt,
         CalculatePrice $calculatePrice
     ): self {
 
@@ -56,7 +58,7 @@ final class Booking extends Entity
             $pricingDetails->getAmenitiesUpCharge(),
             $pricingDetails->getTotalPrice(),
             BookingStatus::RESERVED,
-            DateTime::now(),
+            $createdAt,
         );
 
         $booking->raiseDomainEvent(new BookingReserved($booking->id()));
