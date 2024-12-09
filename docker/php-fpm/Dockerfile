@@ -26,7 +26,11 @@ RUN apt-get update && apt-get install -y \
     acl \
     libjpeg62-turbo-dev \
     libonig-dev \
+    librabbitmq-dev \
     && rm -rf /var/lib/apt/lists/*
+
+RUN pecl install amqp \
+    && docker-php-ext-enable amqp
 
 RUN docker-php-ext-configure gd --with-jpeg --with-freetype
 RUN curl -fsSL https://xdebug.org/files/xdebug-3.2.1.tgz -o xdebug.tgz \
