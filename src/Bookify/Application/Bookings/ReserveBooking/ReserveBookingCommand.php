@@ -2,17 +2,17 @@
 
 namespace Bookify\Application\Bookings\ReserveBooking;
 
-use Bookify\Application\Abstractions\Command;
+use Bookify\Application\Abstractions\Messaging\Command;
 use Bookify\Domain\Shared\CustomUuid;
 use Bookify\Domain\Shared\DateTime;
 
-class ReserveBookingCommand implements Command
+readonly class ReserveBookingCommand implements Command
 {
     public function __construct(
         private CustomUuid $apartmentId,
         private CustomUuid $userId,
-        private DateTime $start,
-        private DateTime $end
+        private DateTime   $start,
+        private DateTime   $end
     ) {
     }
 

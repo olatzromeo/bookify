@@ -3,31 +3,31 @@
 namespace Bookify\Infrastructure\Clock;
 
 use Bookify\Application\Abstractions\Clock\DateTimeProviderInterface;
+use DateMalformedStringException;
 use DateTimeImmutable;
+use DateTimeZone;
 
-class DateTimeProvider implements DateTimeProviderInterface
+class DateTimeProvider extends DateTimeImmutable implements DateTimeProviderInterface
 {
-    public function now(): DateTimeImmutable
-    {
-        // TODO: Implement now() method.
-    }
-
-    public static function now(?DateTimeZone $timezone = null): self
+    /**
+     * @throws DateMalformedStringException
+     */
+    public static function now(?DateTimeZone $timezone = null): DateTimeImmutable
     {
         return new self('now', $timezone);
     }
 
-    public function isGreaterThan(self $dateTime): bool
+    public function isGreaterThan(DateTimeImmutable $dateTime): bool
     {
         return $this->getTimestamp() > $dateTime->getTimestamp();
     }
 
-    public function isEqualTo(self $dateTime): bool
+    public function isEqualTo(DateTimeImmutable $dateTime): bool
     {
         return $this->getTimestamp() === $dateTime->getTimestamp();
     }
 
-    public function isLessThan(self $dateTime): bool
+    public function isLessThan(DateTimeImmutable $dateTime): bool
     {
         return $this->getTimestamp() < $dateTime->getTimestamp();
     }

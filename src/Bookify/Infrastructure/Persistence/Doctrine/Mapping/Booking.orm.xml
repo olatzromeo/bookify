@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="Bookify\Domain\Bookings\Booking" table="bookings">
+        <id name="id" type="string" column="id" column-definition="CHAR(36) NOT NULL">
+            <generator strategy="NONE"/>
+        </id>
+
+        <field name="apartmentId" type="uuid" column="apartment_id" />
+        <field name="userId" type="uuid" column="user_id" />
+
+        <embedded name="stayPeriod" class="Bookify\Domain\Shared\DateRange">
+            <attribute name="start" column="stay_period_start" />
+            <attribute name="end" column="stay_period_end" />
+        </embedded>
+
+        <embedded name="priceForPeriod" class="Bookify\Domain\Shared\Money">
+            <attribute name="amount" column="price_for_period_amount" />
+            <attribute name="currency" column="price_for_period_currency" />
+        </embedded>
+
+        <embedded name="cleaningFee" class="Bookify\Domain\Shared\Money">
+            <attribute name="amount" column="cleaning_fee_amount" />
+            <attribute name="currency" column="cleaning_fee_currency" />
+        </embedded>
+
+        <embedded name="amenitiesUpCharge" class="Bookify\Domain\Shared\Money">
+            <attribute name="amount" column="amenities_upcharge_amount" />
+            <attribute name="currency" column="amenities_upcharge_currency" />
+        </embedded>
+
+        <embedded name="totalPrice" class="Bookify\Domain\Shared\Money">
+            <attribute name="amount" column="total_price_amount" />
+            <attribute name="currency" column="total_price_currency" />
+        </embedded>
+
+        <field name="bookingStatus" type="integer" column="booking_status" />
+        <field name="createdAt" type="datetime_immutable" column="created_at" />
+
+        <field name="confirmedOn" type="datetime_immutable" column="confirmed_on" nullable="true" />
+        <field name="rejectedOn" type="datetime_immutable" column="rejected_on" nullable="true" />
+        <field name="completedOn" type="datetime_immutable" column="completed_on" nullable="true" />
+        <field name="cancelledOn" type="datetime_immutable" column="cancelled_on" nullable="true" />
+    </entity>
+
+</doctrine-mapping>

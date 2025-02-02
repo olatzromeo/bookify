@@ -17,5 +17,22 @@ services:
         resource: '../src/Bookify/*'
         exclude: '../src/Bookify/**/{EventSubscriber,Exception}'
 
+    _instanceof:
+        # all services implementing the CommandHandlerInterface
+        # will be registered on the command.bus bus
+        Bookify\Application\Abstractions\Messaging\CommandHandler:
+            tags:
+                - { name: messenger.message_handler, bus: command.bus }
+
+        # while those implementing QueryHandlerInterface will be
+        # registered on the query.bus bus
+        Bookify\Application\Abstractions\Messaging\QueryHandler:
+            tags:
+                - { name: messenger.message_handler, bus: query.bus }
+
+        Bookify\Application\Abstractions\Messaging\DomainEventHandler:
+            tags:
+                - { name: messenger.message_handler, bus: event.bus }
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

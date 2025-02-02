@@ -18,7 +18,7 @@ class Email
         return new self($email);
     }
 
-    public function email(): string
+    public function value(): string
     {
         return $this->email;
     }
@@ -35,6 +35,6 @@ class Email
 
     public function equalTo(Email $email): bool
     {
-        return $this->email === $email->email();
+        return $this->email === $email->value();
     }
 }

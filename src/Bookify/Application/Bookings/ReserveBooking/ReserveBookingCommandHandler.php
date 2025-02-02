@@ -2,28 +2,31 @@
 
 namespace Bookify\Application\Bookings\ReserveBooking;
 
-use Bookify\Application\Abstractions\CommandHandler;
-use Bookify\Domain\Abstractions\UnitOfWork;
+use Bookify\Application\Abstractions\Messaging\CommandHandler;
 use Bookify\Domain\Apartments\ApartmentRepository;
 use Bookify\Domain\Bookings\Booking;
 use Bookify\Domain\Bookings\BookingRepository;
 use Bookify\Domain\Bookings\CalculatePrice;
 use Bookify\Domain\Shared\DateRange;
 use Bookify\Domain\Users\UserRepository;
+use Bookify\Infrastructure\Clock\DateTimeProvider;
 use Exception;
 
 class ReserveBookingCommandHandler implements CommandHandler
 {
     public function __construct(
-        private readonly UserRepository $userRepository,
-        private readonly ApartmentRepository $apartmentRepository,
-        private readonly BookingRepository $bookingRepository,
-        private readonly UnitOfWork $unitOfWork,
-        private readonly CalculatePrice $calculatePrice
+        private UserRepository $userRepository,
+        private ApartmentRepository $apartmentRepository,
+        private BookingRepository $bookingRepository,
+        private CalculatePrice $calculatePrice,
+        private readonly DateTimeProvider $dateTimeProvider
     ) {
     }
 
-    public function __invoke(ReserveBookingCommand $command)
+    /**
+     * @throws \DateMalformedStringException
+     */
+    public function __invoke(ReserveBookingCommand $command): void
     {
         $user = $this->userRepository->getById($command->getUserId());
         if (null === $user) {
@@ -45,8 +48,11 @@ class ReserveBookingCommandHandler implements CommandHandler
             $apartment,
             $user->id(),
             $stayPeriodRange,
+            $this->dateTimeProvider::now(),
             $this->calculatePrice
         );
+
+        $this->bookingRepository->save($booking);
     }
 
 }

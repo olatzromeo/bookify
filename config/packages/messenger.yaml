@@ -41,6 +41,7 @@ framework:
 
         routing:
             'Bookify\Domain\Abstractions\DomainEvent': async_domain_events
+            'Bookify\Application\Abstractions\Messaging\Command': sync
 
         # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
         # failure_transport: failed

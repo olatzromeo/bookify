@@ -7,6 +7,8 @@ use Bookify\Domain\Shared\DateRange;
 
 interface BookingRepository
 {
+    public function getById(string $id): Booking | null;
+
     public function isOverlapping(DateRange $stayPeriodRange, CustomUuid $apartmentId);
 
     public function add(Booking $booking): void;

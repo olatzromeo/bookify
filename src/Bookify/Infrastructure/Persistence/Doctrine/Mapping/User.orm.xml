@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="Bookify\Domain\Users\User" table="user">
+        <id name="id" type="string" column="id" column-definition="CHAR(36) NOT NULL">
+            <generator strategy="NONE"/>
+        </id>
+
+        <field name="firstName" type="string" length="255" column="first_name" />
+        <field name="lastName" type="string" length="255" column="last_name" />
+
+        <embedded name="email" class="Bookify\Domain\Users\Email">
+            <attribute name="value" column="email" />
+        </embedded>
+
+        <unique-constraints>
+            <unique-constraint name="U_email_user" columns="email" />
+        </unique-constraints>
+    </entity>
+
+</doctrine-mapping>
