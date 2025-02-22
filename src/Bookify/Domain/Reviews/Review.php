@@ -19,8 +19,8 @@ class Review extends Entity
         private readonly Rating $rating,
         private readonly Comment $comment,
         private readonly DateTime $createdAt,
-        array $domainEvents = [])
-    {
+        array $domainEvents = []
+    ) {
         parent::__construct($id, $domainEvents);
     }
 

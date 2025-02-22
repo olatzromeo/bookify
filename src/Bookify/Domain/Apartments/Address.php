@@ -2,7 +2,7 @@
 
 namespace Bookify\Domain\Apartments;
 
-class Address
+readonly class Address
 {
     private function __construct(
         private readonly string $country,
@@ -38,7 +38,7 @@ class Address
         return $this->street;
     }
 
-    final public static function create(string $country, string $state, string $zipCode, string $city, string $street): self
+    final public static function of(string $country, string $state, string $zipCode, string $city, string $street): self
     {
         return new static($country, $state, $zipCode, $city, $street);
     }

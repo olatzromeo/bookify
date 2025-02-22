@@ -11,10 +11,7 @@
 
         <field name="firstName" type="string" length="255" column="first_name" />
         <field name="lastName" type="string" length="255" column="last_name" />
-
-        <embedded name="email" class="Bookify\Domain\Users\Email">
-            <attribute name="value" column="email" />
-        </embedded>
+        <field name="email" type="email" column="email" />
 
         <unique-constraints>
             <unique-constraint name="U_email_user" columns="email" />

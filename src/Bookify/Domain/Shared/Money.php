@@ -2,13 +2,12 @@
 
 namespace Bookify\Domain\Shared;
 
-class Money
+readonly class Money
 {
     private function __construct(
-        private readonly float $amount,
-        private readonly Currency $currency,
-    ) {
-    }
+        private float $amount,
+        private Currency $currency,
+    ) {}
 
     public static function fromFloat(float $amount, Currency $currency): self
     {

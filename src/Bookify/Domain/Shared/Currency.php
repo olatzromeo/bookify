@@ -5,24 +5,28 @@ namespace Bookify\Domain\Shared;
 use Bookify\Domain\Enum\Currency AS CurrencyEnum;
 use DomainException;
 
-class Currency
+readonly class Currency
 {
-    private function __construct(
-        private string $code
-    ) {
+    private function __construct(private string $code)
+    {
         if (!$this->isValidCurrencyCode($this->code)) {
             throw new DomainException('Is not a valid currency');
         }
     }
 
-    public function code(): string
+    public static function of(string $code): self
     {
-        return $this->code;
+        return new static($code);
     }
 
     public static function fromCode(string $code): self
     {
         return new static($code);
+    }
+
+    public function code(): string
+    {
+        return $this->code;
     }
 
     public function isEqual(self $currency): bool

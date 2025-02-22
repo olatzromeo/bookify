@@ -22,7 +22,7 @@ final class Booking extends Entity
         CustomUuid $id,
         private readonly CustomUuid $apartmentId,
         private readonly CustomUuid $userId,
-        private readonly DateRange  $stayPeriod,
+        private readonly DateRange $stayPeriod,
         private readonly Money $priceForPeriod,
         private readonly Money $cleaningFee,
         private readonly Money $amenitiesUpCharge,

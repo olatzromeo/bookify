@@ -12,16 +12,15 @@
         <field name="apartmentId" type="uuid" column="apartment_id" />
         <field name="bookingId" type="uuid" column="booking_id" />
         <field name="userId" type="uuid" column="user_id" />
-
-        <embedded name="rating" class="Bookify\Domain\Reviews\Rating">
-            <attribute name="value" column="rating" />
-        </embedded>
-        <embedded name="comment" class="Bookify\Domain\Reviews\Comment">
-            <attribute name="text" column="comment_text" />
-        </embedded>
-
-        <embedded name="createdAt" class="Bookify\Domain\Shared\DateTime">
-            <attribute name="value" column="created_at" />
-        </embedded>
+        <embedded name="rating" class="Bookify\Domain\Reviews\Rating"/>
+        <embedded name="comment" class="Bookify\Domain\Reviews\Comment"/>
+        <field name="createdAt" type="datetime"/>
     </entity>
+
+    <embeddable name="Bookify\Domain\Reviews\Review">
+        <field name="rate" type="integer"/>
+    </embeddable>
+    <embeddable name="Bookify\Domain\Reviews\Comment">
+        <field name="comment" type="text"/>
+    </embeddable>
 </doctrine-mapping>

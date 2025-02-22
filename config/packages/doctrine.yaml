@@ -6,6 +6,7 @@ doctrine:
         charset: utf8mb4
         types:
             email: Bookify\Infrastructure\Persistence\Doctrine\ValueObject\EmailType
+            datetime: Bookify\Infrastructure\Persistence\Doctrine\ValueObject\DateTimeType
 
     orm:
         auto_generate_proxy_classes: true

@@ -9,19 +9,21 @@
             <generator strategy="NONE"/>
         </id>
 
-        <field name="apartmentId" type="uuid" column="apartment_id" />
-        <field name="bookingId" type="uuid" column="booking_id" />
-        <field name="userId" type="uuid" column="user_id" />
-
-        <embedded name="rating" class="Bookify\Domain\Reviews\Rating">
-            <attribute name="value" column="rating" />
-        </embedded>
-        <embedded name="comment" class="Bookify\Domain\Reviews\Comment">
-            <attribute name="text" column="comment_text" />
-        </embedded>
-
-        <embedded name="createdAt" class="Bookify\Domain\Shared\DateTime">
-            <attribute name="value" column="created_at" />
-        </embedded>
+        <field name="name" column="name" length="255"/>
+        <field name="description" type="text" column="description"/>
+        <embedded name="address" class="Bookify\Domain\Apartments\Address" use-column-prefix="false" />
+        <embedded name="price" class="Bookify\Domain\Shared\Money"/>
+        <embedded name="cleaningFeePrice" class="Bookify\Domain\Shared\Money" column-prefix="cleaning_fee_"/>
+        <field name="lastBookedAt" type="datetime" column="last_booked_at"/>
+        <field name="amenities" type="json" column="amenities"/>
     </entity>
+
+    <embeddable name="Bookify\Domain\Shared\Money">
+        <field name="amount" type="float"/>
+        <embedded name="currency" class="Bookify\Domain\Shared\Currency"/>
+    </embeddable>
+
+    <embeddable name="Bookify\Domain\Shared\Currency">
+        <field name="code" type="string" length="3"/>
+    </embeddable>
 </doctrine-mapping>

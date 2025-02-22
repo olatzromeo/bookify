@@ -6,11 +6,14 @@ use DomainException;
 
 class Email
 {
-    private function __construct(
-        private readonly string $email,
-    )
+    private function __construct(private readonly string $email)
     {
-        $this->assertValidEmail($email);
+        self::assertValidEmail($email);
+    }
+
+    public static function create(string $email): self
+    {
+        return new self($email);
     }
 
     public static function fromString(string $email): self
@@ -26,7 +29,7 @@ class Email
     /**
      * @throws DomainException
      */
-    private function assertValidEmail(string $email): void
+    private static function assertValidEmail(string $email): void
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             throw new DomainException("The email '{$email}' is not a valid email address.");

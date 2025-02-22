@@ -4,25 +4,13 @@ namespace Bookify\Infrastructure\Persistence\Doctrine\Types;
 
 use Bookify\Domain\Users\Email;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\ConversionException;
+use Doctrine\DBAL\Types\StringType;
+use DomainException;
 
-class EmailType extends Type
+class EmailType extends StringType
 {
     public const NAME = 'email';
-
-    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
-    {
-        return $platform->getStringTypeDeclarationSQL($column);
-    }
-
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?Email
-    {
-        if ($value === null) {
-            return null;
-        }
-
-        return Email::fromString($value);
-    }
 
     public function convertToDatabaseValue($value, AbstractPlatform $platform): ?string
     {
@@ -30,20 +18,38 @@ class EmailType extends Type
             return null;
         }
 
-        if (!$value instanceof Email) {
-            throw new \InvalidArgumentException('Invalid email value.');
+        if(!$value instanceof Email) {
+            throw ConversionException::conversionFailedInvalidType(
+                $value,
+                $this->getName(),
+                ['null', Email::class],
+            );
         }
 
-        return $value->value();
+        return parent::convertToDatabaseValue($value->value(), $platform);
+    }
+
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?Email
+    {
+        $value = parent::convertToPHPValue($value, $platform);
+
+        if ($value === null) {
+            return null;
+        }
+
+        try {
+            return Email::create($value);
+        } catch (DomainException $e) {
+            throw ConversionException::conversionFailed(
+                $value,
+                $this->getName(),
+                $e,
+            );
+        }
     }
 
     public function getName(): string
     {
         return self::NAME;
-    }
-
-    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
-    {
-        return true;
     }
 }

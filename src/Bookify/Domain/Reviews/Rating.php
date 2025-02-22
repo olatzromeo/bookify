@@ -4,7 +4,7 @@ namespace Bookify\Domain\Reviews;
 
 use DomainException;
 
-class Rating
+readonly class Rating
 {
     private const MIN_RATE = 1;
     private const MAX_RATE = 5;
@@ -17,7 +17,7 @@ class Rating
         }
     }
 
-    public static function create(int $rateValue): self
+    public static function of(int $rateValue): self
     {
         return new self($rateValue);
     }

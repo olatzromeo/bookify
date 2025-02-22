@@ -50,5 +50,4 @@ class CalculatePrice
 
         return PricingDetails::create($priceForPeriod, $apartment->cleaningFeePrice(), $amenitiesUpCharge, $totalPrice);
     }
-
 }

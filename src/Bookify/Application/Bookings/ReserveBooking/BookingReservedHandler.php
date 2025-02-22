@@ -17,7 +17,7 @@ class BookingReservedHandler implements DomainEventHandler
         private readonly EMAILService $emailService
     ) {}
 
-    public function __invoke(BookingReserved $bookingReserved)
+    public function __invoke(BookingReserved $bookingReserved): voi
     {
         $booking = $this->bookingRepository->getById($bookingReserved->getId());
         if (null === $booking) {
