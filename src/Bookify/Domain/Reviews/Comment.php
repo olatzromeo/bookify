@@ -6,8 +6,7 @@ class Comment
 {
     private function __construct(
       private string $comment,
-    ) {
-    }
+    ) {}
 
     public static function create(string $comment): self
     {

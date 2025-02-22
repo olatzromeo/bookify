@@ -7,7 +7,7 @@ use Bookify\Domain\Shared\CustomUuid;
 use Bookify\Domain\Shared\DateTime;
 use Bookify\Domain\Shared\Money;
 
-final class Apartment extends Entity
+class Apartment extends Entity
 {
     private function __construct(
         CustomUuid $id,

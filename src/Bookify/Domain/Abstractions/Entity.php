@@ -7,8 +7,8 @@ use Bookify\Domain\Shared\CustomUuid;
 abstract class Entity
 {
     public function __construct(
-        private readonly CustomUuid $id,
-        private array $domainEvents = []
+        protected readonly CustomUuid $id,
+        protected array $domainEvents = []
     ) {
     }
 

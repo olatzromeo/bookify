@@ -4,23 +4,15 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                                       https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <entity name="Bookify\Domain\Reviews\Review" table="reviews">
-        <id name="id" type="string" column="id" column-definition="CHAR(36) NOT NULL">
+    <entity name="Bookify\Domain\Reviews\Review" table="review">
+        <id name="id" type="custom_uuid" column="id" column-definition="CHAR(36) NOT NULL">
             <generator strategy="NONE"/>
         </id>
-
-        <field name="apartmentId" type="uuid" column="apartment_id" />
-        <field name="bookingId" type="uuid" column="booking_id" />
-        <field name="userId" type="uuid" column="user_id" />
+        <field name="apartmentId" type="uuid" column="apartment_id"/>
+        <field name="bookingId" type="uuid" column="booking_id"/>
+        <field name="userId" type="uuid" column="user_id"/>
         <embedded name="rating" class="Bookify\Domain\Reviews\Rating"/>
         <embedded name="comment" class="Bookify\Domain\Reviews\Comment"/>
         <field name="createdAt" type="datetime"/>
     </entity>
-
-    <embeddable name="Bookify\Domain\Reviews\Review">
-        <field name="rate" type="integer"/>
-    </embeddable>
-    <embeddable name="Bookify\Domain\Reviews\Comment">
-        <field name="comment" type="text"/>
-    </embeddable>
 </doctrine-mapping>

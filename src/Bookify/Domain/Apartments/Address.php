@@ -5,11 +5,11 @@ namespace Bookify\Domain\Apartments;
 readonly class Address
 {
     private function __construct(
-        private readonly string $country,
-        private readonly string $state,
-        private readonly string $zipCode,
-        private readonly string $city,
-        private readonly string $street
+        private string $country,
+        private string $state,
+        private string $zipCode,
+        private string $city,
+        private string $street
     ) {
     }
 

@@ -4,8 +4,8 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                                       https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <entity name="Bookify\Domain\Bookings\Booking" table="bookings">
-        <id name="id" type="string" column="id" column-definition="CHAR(36) NOT NULL">
+    <entity name="Bookify\Domain\Bookings\Booking" table="booking">
+        <id name="id" type="custom_uuid" column="id" column-definition="CHAR(36) NOT NULL">
             <generator strategy="NONE"/>
         </id>
 
@@ -25,18 +25,4 @@
         <field name="completedOn" type="datetime_immutable" column="completed_on" nullable="true" />
         <field name="cancelledOn" type="datetime_immutable" column="cancelled_on" nullable="true" />
     </entity>
-
-    <embeddable name="Bookify\Domain\Shared\DateRange">
-        <field name="start" type="datetime"/>
-        <field name="end" type="datetime"/>
-    </embeddable>
-
-    <embeddable name="Bookify\Domain\Shared\Money">
-        <field name="amount" type="float"/>
-        <embedded name="currency" class="Bookify\Domain\Shared\Currency"/>
-    </embeddable>
-
-    <embeddable name="Bookify\Domain\Shared\Currency">
-        <field name="code" type="string" length="3"/>
-    </embeddable>
 </doctrine-mapping>

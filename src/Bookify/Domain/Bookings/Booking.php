@@ -16,7 +16,7 @@ use Bookify\Domain\Shared\Money;
 use DateTimeImmutable;
 use DomainException;
 
-final class Booking extends Entity
+class Booking extends Entity
 {
     private function __construct(
         CustomUuid $id,

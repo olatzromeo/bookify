@@ -10,9 +10,9 @@ readonly class Rating
     private const MAX_RATE = 5;
 
     private function __construct(
-        private int $rateValue
+        private int $rate
     ) {
-        if ( self::MIN_RATE > $this->rateValue  || self::MAX_RATE < $this->rateValue) {
+        if ( self::MIN_RATE > $this->rate  || self::MAX_RATE < $this->rate) {
             throw new DomainException('It is not a valid rate');
         }
     }

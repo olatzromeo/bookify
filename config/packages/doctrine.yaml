@@ -5,22 +5,19 @@ doctrine:
         server_version: '5.7'
         charset: utf8mb4
         types:
-            email: Bookify\Infrastructure\Persistence\Doctrine\ValueObject\EmailType
-            datetime: Bookify\Infrastructure\Persistence\Doctrine\ValueObject\DateTimeType
+            email: Bookify\Infrastructure\Persistence\Doctrine\Types\EmailType
+            datetime: Bookify\Infrastructure\Persistence\Doctrine\Types\DateTimeType
+            custom_uuid: Bookify\Infrastructure\Persistence\Doctrine\Types\CustomUuidType
 
     orm:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore
         mappings:
-            Bookings:
+            Bookify:
                 type: xml
                 dir: '%kernel.project_dir%/src/Bookify/Infrastructure/Persistence/Doctrine/Mapping'
-                prefix: 'Bookify\Domain\Bookings'
-                is_bundle: false
-            User:
-                type: xml
-                dir: '%kernel.project_dir%/src/Bookify/Infrastructure/Persistence/Doctrine/Mapping'
-                prefix: 'Bookify\Domain\Users'
+                prefix: Bookify\Domain
+                alias: Bookify
                 is_bundle: false
 
 when@test:

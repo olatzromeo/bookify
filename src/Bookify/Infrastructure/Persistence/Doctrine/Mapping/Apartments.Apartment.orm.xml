@@ -4,8 +4,8 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                                       https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <entity name="Bookify\Domain\Reviews\Review" table="reviews">
-        <id name="id" type="string" column="id" column-definition="CHAR(36) NOT NULL">
+    <entity name="Bookify\Domain\Apartments\Apartment" table="apartment">
+        <id name="id" type="custom_uuid" column="id" column-definition="CHAR(36) NOT NULL">
             <generator strategy="NONE"/>
         </id>
 
@@ -17,13 +17,4 @@
         <field name="lastBookedAt" type="datetime" column="last_booked_at"/>
         <field name="amenities" type="json" column="amenities"/>
     </entity>
-
-    <embeddable name="Bookify\Domain\Shared\Money">
-        <field name="amount" type="float"/>
-        <embedded name="currency" class="Bookify\Domain\Shared\Currency"/>
-    </embeddable>
-
-    <embeddable name="Bookify\Domain\Shared\Currency">
-        <field name="code" type="string" length="3"/>
-    </embeddable>
 </doctrine-mapping>
