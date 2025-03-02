@@ -3,6 +3,8 @@
 namespace Bookify\Domain\Users;
 
 use Bookify\Domain\Abstractions\Entity;
+use Bookify\Domain\Apartments\Address;
+use Bookify\Domain\Attributes\Nullable;
 use Bookify\Domain\Shared\CustomUuid;
 use Bookify\Domain\Users\Events\UserCreated;
 
@@ -13,6 +15,7 @@ class User extends Entity
         private readonly string $firstName,
         private readonly string $lastName,
         private readonly Email $email,
+        #[Nullable] private ?Address $address = null
     ) {
         parent::__construct($userId);
     }

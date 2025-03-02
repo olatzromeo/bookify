@@ -5,10 +5,10 @@
                                       https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
     <embeddable name="Bookify\Domain\Apartments\Address">
-        <field name="country" type="string"/>
-        <field name="state" type="string"/>
-        <field name="zipCode" type="string"/>
-        <field name="city" type="string"/>
-        <field name="street" type="string"/>
+        <field name="country" type="string" nullable="true"/>
+        <field name="state" type="string" nullable="true"/>
+        <field name="zipCode" type="string" nullable="true"/>
+        <field name="city" type="string" nullable="true"/>
+        <field name="street" type="string" nullable="true"/>
     </embeddable>
 </doctrine-mapping>

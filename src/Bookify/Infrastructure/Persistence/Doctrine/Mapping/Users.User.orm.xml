@@ -13,6 +13,8 @@
         <field name="lastName" type="string" length="255" column="last_name" />
         <field name="email" type="email" column="email" />
 
+        <embedded name="address" class="Bookify\Domain\Apartments\Address" />
+
         <unique-constraints>
             <unique-constraint name="U_email_user" columns="email" />
         </unique-constraints>
