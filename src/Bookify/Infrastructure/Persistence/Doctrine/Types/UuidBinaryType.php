@@ -36,7 +36,7 @@ class UuidBinaryType extends BinaryType
     {
         return $platform->getBinaryTypeDeclarationSQL([
             'length' => '16',
-            'fixed' => false,
+            'fixed' => true,
         ]);
     }
 
