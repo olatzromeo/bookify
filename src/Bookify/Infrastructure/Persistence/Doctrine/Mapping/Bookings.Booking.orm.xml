@@ -5,7 +5,7 @@
                                       https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
     <entity name="Bookify\Domain\Bookings\Booking" table="booking">
-        <id name="id" type="custom_uuid" column="id" column-definition="CHAR(36) NOT NULL">
+        <id name="bookingId" type="uuid_binary">
             <generator strategy="NONE"/>
         </id>
 

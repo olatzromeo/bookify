@@ -12,16 +12,15 @@ use DomainException;
 class Review extends Entity
 {
     private function __construct(
-        CustomUuid $id,
+        protected CustomUuid $reviewId,
         private readonly CustomUuid $apartmentId,
         private readonly CustomUuid $bookingId,
         private readonly CustomUuid $userId,
         private readonly Rating $rating,
         private readonly Comment $comment,
         private readonly DateTime $createdAt,
-        array $domainEvents = []
     ) {
-        parent::__construct($id, $domainEvents);
+        parent::__construct($reviewId);
     }
 
     public static function create(

@@ -7,7 +7,7 @@ doctrine:
         types:
             email: Bookify\Infrastructure\Persistence\Doctrine\Types\EmailType
             datetime: Bookify\Infrastructure\Persistence\Doctrine\Types\DateTimeType
-            custom_uuid: Bookify\Infrastructure\Persistence\Doctrine\Types\CustomUuidType
+            uuid_binary: Bookify\Infrastructure\Persistence\Doctrine\Types\UuidBinaryType
 
     orm:
         auto_generate_proxy_classes: true

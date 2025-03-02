@@ -5,45 +5,58 @@ namespace Bookify\Domain\Shared;
 use DomainException;
 use Symfony\Component\Uid\Uuid;
 
-abstract class CustomUuid implements \Stringable
+abstract class CustomUuid
 {
-    private function __construct(
-        private readonly string $value
-    ) {
-        if (!Uuid::isValid($value)) {
-            throw new DomainException('UUID is not valid');
-        }
+    private Uuid $uuid;
+
+    private function __construct(Uuid $uuid)
+    {
+        $this->uuid = $uuid;
     }
 
-    public function value(): string
+    public static function generate(): self
     {
-        return $this->value;
-    }
+        $uuid = Uuid::v4();
 
-    final public static function generate(): static
-    {
-        $id = Uuid::v4()->toString();
-
-        return new static($id);
-    }
-
-    final public static function fromString(string $uuid): static
-    {
         return new static($uuid);
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
-        return $this->value;
+        return $this->uuid->toRfc4122();
     }
 
-    public function isEqualTo(self $uuid): bool
+    public function toBinary(): string
     {
-        return $this->value === $uuid->value;
+        return $this->uuid->toBinary();
     }
 
-    public function isNotEqualTo(self $uuid): bool
+    public static function fromString(string $stringUuid): self
     {
-        return $this->value !== $uuid->value;
+        if (!Uuid::isValid($stringUuid)) {
+            throw new DomainException('UUID is not valid');
+        }
+
+        return new static(Uuid::fromString($stringUuid));
+    }
+
+    public static function fromBinary(string $binary): self
+    {
+        return new static(Uuid::fromBinary($binary));
+    }
+
+    public function isEqualTo(self $otherUuid): bool
+    {
+        return $this->toString() === $otherUuid->toString();
+    }
+
+    public function isNotEqualTo(self $otherUuid): bool
+    {
+        return $this->toString() !== $otherUuid->toString();
+    }
+
+    public function getUuid(): Uuid
+    {
+        return $this->uuid;
     }
 }

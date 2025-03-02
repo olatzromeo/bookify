@@ -5,7 +5,7 @@ namespace Bookify\Domain\Reviews;
 class Comment
 {
     private function __construct(
-      private string $comment,
+      private readonly string $comment,
     ) {}
 
     public static function create(string $comment): self

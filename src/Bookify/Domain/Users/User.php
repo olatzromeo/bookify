@@ -9,12 +9,12 @@ use Bookify\Domain\Users\Events\UserCreated;
 class User extends Entity
 {
     private function __construct(
-        readonly CustomUuid $id,
+        protected readonly CustomUuid $userId,
         private readonly string $firstName,
         private readonly string $lastName,
         private readonly Email $email,
     ) {
-        parent::__construct($id);
+        parent::__construct($userId);
     }
 
     public static function create(

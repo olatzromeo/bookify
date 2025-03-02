@@ -16,3 +16,8 @@ The goal is to provide a scalable and easy to maintain structure, applying desig
 2. I added a makefile to execute the commands to build and start the docker containers.
    - `make install` to build the project stack and start it
    - `make uninstall` to stop the project stack and remove it
+
+## Bibliography
+
+1. [Problem with using a UUID primary key in MySQL](https://planetscale.com/blog/the-problem-with-using-a-uuid-primary-key-in-mysql)
+2. [Domain Driven Desing in PHP](https://www.amazon.es/Domain-Driven-Design-PHP-Carlos-Buenosvinos/dp/1787284948). Carlos Buenosvinos, Christian Soronellas, Keyvan Akbary. 

@@ -19,7 +19,7 @@ use DomainException;
 class Booking extends Entity
 {
     private function __construct(
-        CustomUuid $id,
+        protected readonly CustomUuid $bookingId,
         private readonly CustomUuid $apartmentId,
         private readonly CustomUuid $userId,
         private readonly DateRange $stayPeriod,
@@ -35,7 +35,7 @@ class Booking extends Entity
         private ?DateTime $cancelledOn = null,
         array $domainEvents = []
     ) {
-        parent::__construct($id, $domainEvents);
+        parent::__construct($bookingId, $domainEvents);
     }
 
     public static function reserve(
