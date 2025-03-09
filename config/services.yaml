@@ -34,7 +34,7 @@ services:
             tags:
                 - { name: messenger.message_handler, bus: event.bus }
 
-        Bookify\Infrastructure\Persistence\NullableEmbeddableListener:
+        Bookify\Infrastructure\Persistence\Doctrine\EventListener\NullableEmbeddableListener:
             tags:
                 - { name: doctrine.event_listener, event: prePersist }
                 - { name: doctrine.event_listener, event: preUpdate }

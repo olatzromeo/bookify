@@ -5,27 +5,36 @@ namespace Bookify\Infrastructure\Persistence\Doctrine\EventListener;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use ReflectionClass;
 use Bookify\Domain\Attributes\Nullable;
-use ReflectionObject;
+use ReflectionException;
 
 class NullableEmbeddableListener
 {
+    /**
+     * @throws ReflectionException
+     */
     public function prePersist(LifecycleEventArgs $args): void
     {
         $this->handleNullableEmbeddables($args->getObject());
     }
 
+    /**
+     * @throws ReflectionException
+     */
     public function preUpdate(LifecycleEventArgs $args): void
     {
         $this->handleNullableEmbeddables($args->getObject());
     }
 
+    /**
+     * @throws ReflectionException
+     */
     public function postLoad(LifecycleEventArgs $args): void
     {
         $this->handleNullableEmbeddables($args->getObject(), true);
     }
 
     /**
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     private function handleNullableEmbeddables(object $entity, bool $isPostLoad = false): void
     {
@@ -53,7 +62,7 @@ class NullableEmbeddableListener
     }
 
     /**
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     private function areAllPropertiesNull(mixed $object): bool
     {
