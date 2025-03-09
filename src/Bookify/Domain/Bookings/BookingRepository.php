@@ -11,6 +11,6 @@ interface BookingRepository
 
     public function isOverlapping(DateRange $stayPeriodRange, CustomUuid $apartmentId);
 
-    public function add(Booking $booking): void;
+    public function save(Booking $booking): void;
 
 }

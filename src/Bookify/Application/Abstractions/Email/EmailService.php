@@ -2,8 +2,10 @@
 
 namespace Bookify\Application\Abstractions\Email;
 
+use Bookify\Domain\Users\Email;
+
 interface EmailService
 {
-    public function sendAsync(string $recipient, string $subject, string $body);
+    public function sendAsync(Email $recipient, string $subject, string $body);
 
 }

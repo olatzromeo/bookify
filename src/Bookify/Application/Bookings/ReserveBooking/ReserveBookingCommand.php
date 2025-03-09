@@ -11,10 +11,9 @@ readonly class ReserveBookingCommand implements Command
     public function __construct(
         private CustomUuid $apartmentId,
         private CustomUuid $userId,
-        private DateTime   $start,
-        private DateTime   $end
-    ) {
-    }
+        private DateTime $start,
+        private DateTime $end
+    ) {}
 
     public function getApartmentId(): CustomUuid
     {

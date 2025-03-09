@@ -9,8 +9,7 @@ class BookingReserved implements DomainEvent
 {
     public function __construct(
         private readonly CustomUuid $id
-    ) {
-    }
+    ) {}
 
     public function getId(): CustomUuid
     {
