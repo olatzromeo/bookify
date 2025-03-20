@@ -1,6 +1,6 @@
 services:
   db:
-    container_name: clean-architecture-symfony7_db
+    container_name: bookify_db
     image: mysql:8.0.33
     platform: linux/amd64
     command: --default-authentication-plugin=mysql_native_password
@@ -20,17 +20,17 @@ services:
       - "3306:3306"
     restart: always
     networks:
-      - clean_architecture_symfony7_network
+      - bookify_network
 
   php:
-    container_name: clean-architecture-symfony7_php
+    container_name: bookify_php
     build:
       context: ./php-fpm
       args:
         TIMEZONE: ${TIMEZONE}
         UID: ${UID}
     volumes:
-      - ../:/var/www/clean-architecture-symfony7:cached
+      - ../:/var/www/bookify:cached
       - ./php-fpm/php.ini:/usr/local/etc/php/conf.d/php.ini
       - ./php-fpm/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
     environment:
@@ -44,29 +44,29 @@ services:
         condition: service_healthy
     restart: always
     networks:
-      - clean_architecture_symfony7_network
+      - bookify_network
 
   nginx:
-    container_name: clean-architecture-symfony7_nginx
+    container_name: bookify_nginx
     build:
       context: ./nginx
       args:
         UID: ${UID}
     volumes:
-      - ../:/var/www/clean-architecture-symfony7:cached
+      - ../:/var/www/bookify:cached
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/templates:/etc/nginx/templates:ro
     ports:
-      - "8080:80"
+      - "8081:80"
     depends_on:
       php:
         condition: service_started
     restart: always
     networks:
-      - clean_architecture_symfony7_network
+      - bookify_network
 
   rabbitmq:
-    container_name: clean-architecture-symfony7_rabbitmq
+    container_name: bookify_rabbitmq
     image: rabbitmq:3.11-management
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER:-rabbituser}
@@ -77,13 +77,13 @@ services:
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
     networks:
-      - clean_architecture_symfony7_network
+      - bookify_network
 
 volumes:
   db_data:
   rabbitmq_data:
 
 networks:
-  clean_architecture_symfony7_network:
-    name: clean_architecture_symfony7_network
+  bookify_network:
+    name: bookify_network
     driver: bridge

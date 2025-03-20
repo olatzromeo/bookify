@@ -2,8 +2,8 @@ help:
 	@grep -E '(^[a-zA-Z_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
 
 UID = $(shell id -u)
-PHP_CONTAINER = clean-architecture-symfony7_php
-NGINX_CONTAINER = clean-architecture-symfony7_nginx
+PHP_CONTAINER = bookify_php
+NGINX_CONTAINER = bookify_nginx
 DOCKER_COMPOSE = cd docker && U_ID=${UID} docker compose
 SSH_PHP = docker exec -it $(PHP_CONTAINER) bash
 SSH_NGINX = docker exec -it $(NGINX_CONTAINER) sh
@@ -49,3 +49,6 @@ consume-transport-%:
 
 cc:
 	$(EXEC_PHP) bin/console cache:clear
+
+composer-install:
+	$(EXEC_PHP) composer install

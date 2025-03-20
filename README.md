@@ -16,6 +16,7 @@ The goal is to provide a scalable and easy to maintain structure, applying desig
 2. I added a makefile to execute the commands to build and start the docker containers.
    - `make install` to build the project stack and start it
    - `make uninstall` to stop the project stack and remove it
+   - `make composer-install` to install composer dependencies
 
 ## Bibliography
 

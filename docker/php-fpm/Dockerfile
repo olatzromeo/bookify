@@ -7,7 +7,7 @@ RUN adduser -u ${UID} --disabled-password --gecos "" appuser \
     && chown -R appuser:appuser /home/appuser/ \
     && echo "StrictHostKeyChecking no" >> /home/appuser/.ssh/config \
     && echo "export COLUMNS=300" >> /home/appuser/.bashrc \
-    && echo "alias sf=/var/www/clean-architecture-symfony7/bin/console" >> /home/appuser/.bashrc
+    && echo "alias sf=/var/www/bookify/bin/console" >> /home/appuser/.bashrc
 
 RUN apt-get update && apt-get install -y \
     gnupg \
@@ -59,7 +59,7 @@ RUN ln -snf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime \
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN mkdir -p /var/www/clean-architecture-symfony7
-WORKDIR /var/www/clean-architecture-symfony7
+RUN mkdir -p /var/www/bookify
+WORKDIR /var/www/bookify
 
 USER appuser
